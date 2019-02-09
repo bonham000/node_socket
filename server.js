@@ -1,11 +1,15 @@
-const WebSocket = require('ws');
-
-const wss = new WebSocket.Server({ port: 8080 });
-
-wss.on('connection', ws => {
+const express = require('express');
+const app = express();
+const expressWs = require('express-ws')(app);
+ 
+app.get('/', function(req, res, next){
+  res.send("Socket server is running...");
+});
+ 
+app.ws('/', function(ws, req) {
   console.log("Client connected");
   
-  ws.on('message', message => {
+  ws.on('message', function(msg) {
     console.log(`Received message => ${message}`);
 
     try {
@@ -21,3 +25,6 @@ wss.on('connection', ws => {
     }
   });
 });
+ 
+const PORT = 9001;
+app.listen(PORT, () => console.log(`Server running on ${PORT}`));
