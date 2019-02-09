@@ -9,7 +9,7 @@ app.get('/', function(req, res, next){
 app.ws('/', function(ws, req) {
   console.log("Client connected");
   
-  ws.on('message', function(msg) {
+  ws.on('message', function(message) {
     console.log(`Received message => ${message}`);
 
     try {
@@ -27,4 +27,5 @@ app.ws('/', function(ws, req) {
 });
  
 const PORT = process.env.PORT || 9001;
+
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
