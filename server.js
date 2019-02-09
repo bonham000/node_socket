@@ -26,5 +26,5 @@ app.ws('/', function(ws, req) {
   });
 });
  
-const PORT = 9001;
+const PORT = process.env.PORT || 9001;
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
