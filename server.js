@@ -27,7 +27,6 @@ const messageIsValid = (data) => {
   );
 };
 
-
 // Run WebSocket connection
 wss.on('connection', (ws) => {
   console.log("Client connected");
