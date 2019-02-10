@@ -8,8 +8,8 @@ const app = express();
 const server = http.createServer(app);
 
 // Create a GET / route
-app.get('/', function(req, res, next){
-  res.send("Socket server is running...");
+app.get('/', (req, res, next) => {
+  res.send("WebSocket server is running!");
 });
 
 // Initialize the WebSocket server instance
@@ -43,9 +43,11 @@ wss.on('connection', (ws) => {
             client.send(message);
           }
         });
+      } else {
+        console.log("Message was invalid");
       }
     } catch (err) {
-      console.log("Could not parse message", err);
+      console.log("Could not parse message!", err);
     }
   });  
 });
