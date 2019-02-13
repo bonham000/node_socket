@@ -41,8 +41,8 @@ io.on("connection", (socket) => {
        */
       const data = JSON.parse(message);
       if (messageIsValid(data)) {
-        console.log("Broadcasting message ==========>");
-        io.emit("broadcast", message);
+        console.log("Broadcasting message to all clients... 🚀");
+        io.emit("message", message);
       } else {
         console.log("Message format was invalid...");
       }
