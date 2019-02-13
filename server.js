@@ -1,11 +1,18 @@
 const express = require('express');
 const http = require('http');
-const WebSocket = require('ws');
+// const WebSocket = require('ws');
 
 const app = express();
 
 // Initialize a simple http server
 const server = http.createServer(app);
+
+const SocketIO = require('socket.io');
+const wss = SocketIO(server, {
+    pingInterval: 15000,
+    pingTimeout: 30000,
+});
+
 
 // Create a GET / route
 app.get('/', (req, res, next) => {
@@ -13,10 +20,10 @@ app.get('/', (req, res, next) => {
 });
 
 // Initialize the WebSocket server instance
-const wss = new WebSocket.Server({ server }, {
-  pingInterval: 15000,
-  pingTimeout: 30000,
-});
+// const wss = new WebSocket.Server({ server }, {
+//   pingInterval: 15000,
+//   pingTimeout: 30000,
+// });
 
 // Helper to validate messages
 const messageIsValid = (data) => {
@@ -30,17 +37,17 @@ const messageIsValid = (data) => {
   );
 };
 
-function noop() {}
+// function noop() {}
  
-function heartbeat() {
-  this.isAlive = true;
-}
+// function heartbeat() {
+//   this.isAlive = true;
+// }
 
 // Run WebSocket connection
 wss.on('connection', (ws) => {
 
-  ws.isAlive = true;
-  ws.on('pong', heartbeat);
+  // ws.isAlive = true;
+  // ws.on('pong', heartbeat);
 
   console.log("Client connected");
 
@@ -67,14 +74,14 @@ wss.on('connection', (ws) => {
   });  
 });
 
-const interval = setInterval(function ping() {
-  wss.clients.forEach(function each(ws) {
-    if (ws.isAlive === false) return ws.terminate();
+// const interval = setInterval(function ping() {
+//   wss.clients.forEach(function each(ws) {
+//     if (ws.isAlive === false) return ws.terminate();
  
-    ws.isAlive = false;
-    ws.ping(noop);
-  });
-}, 30000);
+//     ws.isAlive = false;
+//     ws.ping(noop);
+//   });
+// }, 30000);
 
 const PORT = process.env.PORT || 9001;
 
