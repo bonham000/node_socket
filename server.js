@@ -1,6 +1,6 @@
-const express = require('express');
-const http = require('http');
-const SocketIO = require('socket.io');
+const express = require("express");
+const http = require("http");
+const SocketIO = require("socket.io");
 
 const app = express();
 
@@ -13,7 +13,7 @@ const io = SocketIO(server, {
 });
 
 // Create a GET / route
-app.get('/', (req, res, next) => {
+app.get("/", (req, res, next) => {
   res.send("WebSocket server is running!");
 });
 
@@ -30,10 +30,10 @@ const messageIsValid = (data) => {
 };
 
 // Run WebSocket connection
-io.on('connection', (socket) => {
+io.on("connection", (socket) => {
   console.log("Client connected!");
 
-  socket.on('message', (message) => {
+  socket.on("message", (message) => {
     console.log(`Received message => ${message}`);
     try {
       /**
@@ -41,7 +41,8 @@ io.on('connection', (socket) => {
        */
       const data = JSON.parse(message);
       if (messageIsValid(data)) {
-        io.emit(message);
+        console.log("Broadcasting message ==========>");
+        io.emit("broadcast", message);
       } else {
         console.log("Message format was invalid...");
       }
