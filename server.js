@@ -13,7 +13,10 @@ app.get('/', (req, res, next) => {
 });
 
 // Initialize the WebSocket server instance
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({ server }, {
+  pingInterval: 15000,
+  pingTimeout: 30000,
+});
 
 // Helper to validate messages
 const messageIsValid = (data) => {
