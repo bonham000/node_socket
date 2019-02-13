@@ -7,7 +7,7 @@ const app = express();
 // Initialize a simple http server
 const server = http.createServer(app);
 
-const socket = SocketIO(server, {
+const io = SocketIO(server, {
     pingInterval: 15000,
     pingTimeout: 30000,
 });
@@ -30,10 +30,10 @@ const messageIsValid = (data) => {
 };
 
 // Run WebSocket connection
-socket.on('connection', (ws) => {
+io.on('connection', (socket) => {
   console.log("Client connected!");
 
-  ws.on('message', (message) => {
+  socket.on('message', (message) => {
     console.log(`Received message => ${message}`);
     try {
       /**
@@ -41,7 +41,7 @@ socket.on('connection', (ws) => {
        */
       const data = JSON.parse(message);
       if (messageIsValid(data)) {
-        ws.emit(message);
+        io.emit(message);
       } else {
         console.log("Message format was invalid...");
       }
