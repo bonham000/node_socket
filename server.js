@@ -59,12 +59,13 @@ wss.on('connection', (ws) => {
         /**
          * Broadcast to all connected clients
          */
-        wss.clients.forEach((client) => {
-          if (client !== ws && client.readyState === WebSocket.OPEN) {
-            console.log("Broadcast message to connected client...");
-            client.send(message);
-          }
-        });
+        ws.emit(message);
+        // wss.clients.forEach((client) => {
+        //   if (client !== ws && client.readyState === WebSocket.OPEN) {
+        //     console.log("Broadcast message to connected client...");
+        //     client.send(message);
+        //   }
+        // });
       } else {
         console.log("Message was invalid");
       }
