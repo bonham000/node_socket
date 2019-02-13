@@ -30,9 +30,20 @@ const messageIsValid = (data) => {
   );
 };
 
+function noop() {}
+ 
+function heartbeat() {
+  this.isAlive = true;
+}
+
 // Run WebSocket connection
 wss.on('connection', (ws) => {
+
+  ws.isAlive = true;
+  ws.on('pong', heartbeat);
+
   console.log("Client connected");
+
   ws.on('message', (message) => {
     console.log(`Received message => ${message}`);
     try {
@@ -55,6 +66,15 @@ wss.on('connection', (ws) => {
     }
   });  
 });
+
+const interval = setInterval(function ping() {
+  wss.clients.forEach(function each(ws) {
+    if (ws.isAlive === false) return ws.terminate();
+ 
+    ws.isAlive = false;
+    ws.ping(noop);
+  });
+}, 30000);
 
 const PORT = process.env.PORT || 9001;
 
